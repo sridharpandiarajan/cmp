@@ -85,8 +85,6 @@ const WorkerCards = () => {
 
         <button className="back-btn" onClick={() => navigate('/')}>🏠 Home</button>
       </div>
-
-      <div className="table-container">
         <table className="worker-table">
           <thead>
             <tr>
@@ -121,7 +119,14 @@ const WorkerCards = () => {
                 <td>{formatDate(worker.applicationDate) || '-'}</td>
                 <td>{formatDate(worker.approvalDate) || '-'}</td>
                 <td>{formatDate(worker.expiryDate) || '-'}</td>
-                <td>{worker.certificates || '-'}</td>
+                <td style={{
+                    whiteSpace: 'pre-line',
+                    textAlign: 'left',
+                    maxWidth: '120px',
+                    wordWrap: 'break-word',
+                    overflowWrap: 'break-word'
+                  }}>{worker.certificates || '-'}
+                </td>
                 <td>{worker.certificateType || '-'}</td>
                 <td>
                   {worker.certificateType === 'CSOC' && worker.csocNumber
@@ -165,7 +170,6 @@ const WorkerCards = () => {
           </tbody>
         </table>
       </div>
-    </div>
   );
 };
 

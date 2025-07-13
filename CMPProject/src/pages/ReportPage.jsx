@@ -132,7 +132,10 @@ const ReportPage = () => {
               <div><strong>App Date:</strong> {formatDate(filteredByFin.applicationDate)}</div>
               <div><strong>Approval Date:</strong> {formatDate(filteredByFin.approvalDate)}</div>
               <div><strong>Expiry Date:</strong> {formatDate(filteredByFin.expiryDate)}</div>
-              <div><strong>Certificates:</strong> {filteredByFin.certificates || '-'}</div>
+              <div style={{ whiteSpace: 'pre-line', textAlign: 'left' }}>
+                <strong>Certificates:</strong> {filteredByFin.certificates || '-'}
+              </div>
+
               <div><strong>Type:</strong> {filteredByFin.certificateType || '-'}</div>
               <div><strong>CSOC No:</strong> {filteredByFin.csocNumber || '-'}</div>
               <div><strong>CSOC Date:</strong> {formatDate(filteredByFin.csocDate)}</div>
@@ -155,22 +158,24 @@ const ReportPage = () => {
               <tbody>
                 {(filterType === 'company' ? filteredByCompany : filteredByExpiry).map((w, idx) => (
                   <tr key={idx}>
-                    <td>{w.name || '-'}</td>
-                    <td>{w.employer || '-'}</td>
-                    <td>{w.finNumber || '-'}</td>
-                    <td>{w.workPermitNumber || '-'}</td>
-                    <td>{formatDate(w.dob)}</td>
-                    <td>{w.sector || '-'}</td>
-                    <td>{w.nationality || '-'}</td>
-                    <td>{formatDate(w.applicationDate)}</td>
-                    <td>{formatDate(w.approvalDate)}</td>
-                    <td>{formatDate(w.expiryDate)}</td>
-                    <td>{w.certificates || '-'}</td>
-                    <td>{w.certificateType || '-'}</td>
-                    <td>{w.csocNumber || '-'}</td>
-                    <td>{formatDate(w.csocDate)}</td>
-                    <td>{w.bcssNumber || '-'}</td>
-                  </tr>
+                  <td>{w.name || '-'}</td>
+                  <td>{w.employer || '-'}</td>
+                  <td>{w.finNumber || '-'}</td>
+                  <td>{w.workPermitNumber || '-'}</td>
+                  <td>{formatDate(w.dob)}</td>
+                  <td>{w.sector || '-'}</td>
+                  <td>{w.nationality || '-'}</td>
+                  <td>{formatDate(w.applicationDate)}</td>
+                  <td>{formatDate(w.approvalDate)}</td>
+                  <td>{formatDate(w.expiryDate)}</td>
+                  <td style={{ whiteSpace: 'pre-line', textAlign: 'left' }}>
+                    {w.certificates || '-'}
+                  </td>
+                  <td>{w.certificateType || '-'}</td>
+                  <td>{w.csocNumber || '-'}</td>
+                  <td>{formatDate(w.csocDate)}</td>
+                  <td>{w.bcssNumber || '-'}</td>
+                </tr>                
                 ))}
               </tbody>
             </table>

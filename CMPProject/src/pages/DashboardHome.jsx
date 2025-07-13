@@ -7,15 +7,22 @@ const DashboardHome = () => {
 
   return (
     <div className="dashboard-home-wrapper">
-      <div className="dashboard-home-card">
-        <div className="dashboard-title">
-        <h2 style={{ marginBottom: '10px' }}>Collin Man Power</h2>
-        <h2>🏗️ Worker Management</h2>
-        </div>
-        <div className="dashboard-buttons">
-          <button onClick={() => navigate('/report')}>📊 Report</button>
-          <button onClick={() => navigate('/add')}>➕ Add Worker</button>
-          <button onClick={() => navigate('/view')}>📋View Workers</button>
+      <div className="dashboard-container">
+        <h1 className="dashboard-heading">📋 Worker Management System</h1>
+
+        <div className="action-grid">
+          <div className="action-card" onClick={() => navigate('/add')}>
+            <div className="icon">➕</div>
+            <div className="label">Add Worker</div>
+          </div>
+          <div className="action-card" onClick={() => navigate('/report')}>
+            <div className="icon">📊</div>
+            <div className="label">Reports</div>
+          </div>
+          <div className="action-card" onClick={() => navigate('/view')}>
+            <div className="icon">📋</div>
+            <div className="label">View Workers</div>
+          </div>
         </div>
       </div>
     </div>
