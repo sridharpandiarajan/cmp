@@ -1,0 +1,96 @@
+/* Base Reset and Font */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f4f8;
+  overflow-x: hidden;
+}
+.dashboard-title {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dashboard-title h2 {
+  margin: 0;
+  font-size: 25px;
+  color: #2c3e50;
+}
+
+.dashboard-title h3 {
+  margin-top: 10px;
+  font-size: 22px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+
+/* Center Wrapper with Gradient Background */
+.dashboard-home-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #dfe9f3, #ffffff);
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Card Container */
+.dashboard-home-card {
+  background: white;
+  padding: 40px 60px;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 90%;
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+/* Title */
+.dashboard-home-card h2 {
+  margin-bottom: 30px;
+  color: #2c3e50;
+  font-size: 28px;
+}
+
+/* Buttons Layout */
+.dashboard-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Button Style */
+.dashboard-buttons button {
+  padding: 14px 30px;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dashboard-buttons button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive: Stack buttons on smaller screens */
+@media (max-width: 500px) {
+  .dashboard-home-card {
+    padding: 30px 20px;
+  }
+
+  .dashboard-buttons button {
+    width: 100%;
+    padding: 14px 0;
+  }
+}
