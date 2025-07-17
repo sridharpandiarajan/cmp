@@ -1,0 +1,239 @@
+/* ===== Base Layout ===== */
+.report-page {
+  min-height: 100vh;
+  background-color: #f3f7fa;
+  padding: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+}
+
+/* ===== Title ===== */
+.report-page h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* ===== Filter Section ===== */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.filter-section label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.filter-section select,
+.filter-section input {
+  padding: 0.5rem 1rem;
+  font-size: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: #2d2d2d;
+  color: white;
+  min-width: 180px;
+}
+
+/* ===== Top Bar / Back Button ===== */
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: #0056b3;
+}
+
+/* ===== FIN Details Card Style ===== */
+.report-details-card {
+  border: 1px solid #000;
+  padding: 20px 30px;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.worker-name-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+  text-align: left;
+  margin-top: 20px;
+}
+
+/* ===== Worker Table ===== */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.worker-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+
+.worker-table th,
+.worker-table td {
+  border: 1px solid #000;
+  font-size: 12px !important;
+  padding: 8px 10px !important;
+  color: #000;
+  text-align: center;
+  word-break: break-word;
+}
+
+.worker-table th {
+  background: #e0e0e0;
+  font-weight: bold;
+}
+
+/* ===== Centering table ===== */
+.print-table-centered {
+  width: 100%;
+}
+
+/* ===== Print Button ===== */
+.print-button {
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* ===== Bottom Button Wrapper ===== */
+.bottom-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  width: 100%;
+  padding-right: 2rem;
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+    font-size: 11px;
+    width: 100%;
+  }
+
+  @page {
+    size: landscape;
+    margin: 1cm;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-section, .print-section * {
+    visibility: visible;
+  }
+
+  .print-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .print-table-centered {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .worker-table {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: unset !important;
+    table-layout: auto !important;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  .worker-table th,
+  .worker-table td {
+    border: 1px solid #000;
+    padding: 6px;
+    word-break: break-word;
+    font-size: 11px;
+  }
+
+  .worker-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+
+  .worker-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  table {
+    page-break-after: auto;
+  }
+
+  /* Hide UI elements in print */
+  .no-print,
+  .top-bar,
+  .print-button,
+  .dashboard-btn,
+  .filter-section,
+  .sort-section,
+  .report-page h2 {
+    display: none !important;
+  }
+}
+.print-sort-description {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+@media print {
+  .print-sort-description {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+}
