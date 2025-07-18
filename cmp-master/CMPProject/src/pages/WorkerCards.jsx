@@ -163,7 +163,7 @@ const WorkerCards = () => {
             {filteredWorkers.length === 0 && (
               <tr>
                 <td colSpan="16" style={{ textAlign: 'center' }}>
-                  No workers found.
+                  No workers found. 
                 </td>
               </tr>
             )}
