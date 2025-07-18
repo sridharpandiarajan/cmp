@@ -2,10 +2,9 @@
   "name": "cmp-server",
   "version": "1.0.0",
   "description": "Backend server for CMP worker project",
-  "main": "index.js",  
-  "type": "module",
+  "main": "server.js",  
   "scripts": {
-    "start": "node index.js" 
+    "start": "node server.js" 
   },
   "dependencies": {
     "cors": "^2.8.5",
