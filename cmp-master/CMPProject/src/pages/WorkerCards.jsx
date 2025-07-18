@@ -18,7 +18,7 @@ const WorkerCards = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/workers')
+    fetch('https://cmp-backend-8htv.onrender.com/api/workers')
       .then(async (res) => {
         const contentType = res.headers.get("content-type");
         if (!res.ok) {
@@ -39,7 +39,7 @@ const WorkerCards = () => {
     if (!confirm) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/workers/${id}`, {
+      const res = await fetch(`https://cmp-backend-8htv.onrender.com/api/workers/${id}`, {
         method: 'DELETE',
       });
 
