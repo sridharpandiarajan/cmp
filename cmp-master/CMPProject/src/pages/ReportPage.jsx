@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/ReportPage.css';
+import { BASE_URL } from '../api';
 
 const ReportPage = () => {
   const [workers, setWorkers] = useState([]);
@@ -9,13 +10,13 @@ const ReportPage = () => {
   const [finQuery, setFinQuery] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/workers')
-      .then(res => res.json())
-      .then(data => setWorkers(data))
-      .catch(err => console.error("Error fetching workers:", err));
-  }, []);
-
+useEffect(() => {
+  fetch(`${BASE_URL}/api/workers`)
+    .then(res => res.json())
+    .then(data => setWorkers(data))
+    .catch(err => console.error("Error fetching workers:", err));
+}, []);
+  
   // 🔄 Dynamically inject @page CSS for print orientation
   useEffect(() => {
     const existing = document.getElementById('dynamic-print-style');
