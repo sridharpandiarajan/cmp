@@ -3,16 +3,21 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
-dotenv.config(); // Load environment variables
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
-app.use(cors());
+// ✅ CORS for Vercel frontend
+app.use(cors({
+  origin: ['https://workermanagementsystem.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
-// MongoDB Connection
+// ✅ MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -23,12 +28,12 @@ mongoose.connect(process.env.MONGO_URI, {
 })
 .catch((err) => console.error('❌ MongoDB connection error:', err));
 
-// Routes
+// ✅ API routes
 const workerRoutes = require('./routes/Workers');
 app.use('/api/workers', workerRoutes);
 
-// Root endpoint
+// ✅ Root test endpoint
 app.get('/', (req, res) => res.send('🌐 CMP Worker API running'));
 
-// Catch-all 404
+// ✅ 404 handler
 app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
