@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Worker = require('../models/Worker');
 
-// CREATE (POST) a new worker
+// CREATE
 router.post('/', async (req, res) => {
   try {
     const newWorker = new Worker(req.body);
@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET all workers
+// READ - All
 router.get('/', async (req, res) => {
   try {
     const workers = await Worker.find();
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET one worker by ID
+// READ - One by ID
 router.get('/find/:id', async (req, res) => {
   try {
     const worker = await Worker.findById(req.params.id);
@@ -35,21 +35,17 @@ router.get('/find/:id', async (req, res) => {
   }
 });
 
-// UPDATE a worker
+// UPDATE
 router.put('/:id', async (req, res) => {
   try {
-    const updatedWorker = await Worker.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const updatedWorker = await Worker.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.status(200).json(updatedWorker);
   } catch (error) {
     res.status(500).json({ message: 'Error updating worker' });
   }
 });
 
-// DELETE a worker
+// DELETE
 router.delete('/:id', async (req, res) => {
   try {
     await Worker.findByIdAndDelete(req.params.id);
