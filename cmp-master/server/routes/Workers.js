@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Worker = require('../models/Worker');
 
-// CREATE (POST) a new worker
+// CREATE a new worker
 router.post('/', async (req, res) => {
   try {
     const newWorker = new Worker(req.body);
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET one worker by ID
-router.get('/find/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   try {
     const worker = await Worker.findById(req.params.id);
     if (!worker) return res.status(404).json({ message: 'Worker not found' });
@@ -35,7 +35,7 @@ router.get('/find/:id', async (req, res) => {
   }
 });
 
-// UPDATE a worker
+// UPDATE a worker by ID
 router.put('/:id', async (req, res) => {
   try {
     const updatedWorker = await Worker.findByIdAndUpdate(
@@ -43,16 +43,18 @@ router.put('/:id', async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!updatedWorker) return res.status(404).json({ message: 'Worker not found for update' });
     res.status(200).json(updatedWorker);
   } catch (error) {
     res.status(500).json({ message: 'Error updating worker' });
   }
 });
 
-// DELETE a worker
+// DELETE a worker by ID
 router.delete('/:id', async (req, res) => {
   try {
-    await Worker.findByIdAndDelete(req.params.id);
+    const deletedWorker = await Worker.findByIdAndDelete(req.params.id);
+    if (!deletedWorker) return res.status(404).json({ message: 'Worker not found for deletion' });
     res.status(200).json({ message: 'Worker deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting worker' });
