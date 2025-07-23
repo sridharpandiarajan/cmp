@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['https://cmp-orpin.vercel.app'], // ✅ No trailing slash
+  origin: "*", // ✅ No trailing slash
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
