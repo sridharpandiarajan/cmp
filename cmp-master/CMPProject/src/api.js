@@ -1,2 +1,2 @@
 // src/api.js
-export const BASE_URL = 'https://cmp-backend-8htv.onrender.com';
+export const BASE_URL = 'https://cmp-ov99.onrender.com';
