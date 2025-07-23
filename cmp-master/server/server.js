@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['https://workermanagementsystem.vercel.app'], // Allow only Vercel frontend
+  origin: ['https://cmp-1.vercel.app/'], // Allow only Vercel frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
