@@ -3,23 +3,23 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 
-dotenv.config(); // Load environment variables from .env
+dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ['https://cmp-1.vercel.app/'], // Allow only Vercel frontend
+  origin: ['https://cmp-1.vercel.app'], // ✅ No trailing slash
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
+  credentials: true,
 }));
 app.use(express.json());
 
-// MongoDB Connection
+// MongoDB connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 })
 .then(() => {
   console.log('✅ Connected to MongoDB');
@@ -31,12 +31,12 @@ mongoose.connect(process.env.MONGO_URI, {
 const workerRoutes = require('./routes/Workers');
 app.use('/api/workers', workerRoutes);
 
-// Root endpoint
+// Root health check
 app.get('/', (req, res) => {
   res.send('🌐 CMP Worker API running');
 });
 
-// 404 handler
+// 404 Handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
