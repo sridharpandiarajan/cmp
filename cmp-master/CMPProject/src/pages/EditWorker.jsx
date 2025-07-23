@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import './EditWorker.css'; // optional custom styling
+import '../css/EditWorker.css'; // optional custom styling
 
 const EditWorker = () => {
   const { id } = useParams();
