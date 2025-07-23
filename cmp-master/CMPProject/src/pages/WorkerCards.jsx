@@ -1,176 +1,138 @@
 import React, { useEffect, useState } from 'react';
-import '../css/WorkerCards.css';
 import { useNavigate } from 'react-router-dom';
+import './WorkerCards.css';
+import { BASE_URL } from '../api';
 
-const WorkerCards = () => {
+function WorkerCards() {
   const [workers, setWorkers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchField, setSearchField] = useState('name');
+  const [searchBy, setSearchBy] = useState('name');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const formatDate = (dateStr) => {
-    if (!dateStr) return '';
-    const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  };
-
+  // Fetch all workers
   useEffect(() => {
-    fetch('https://cmp-backend-8htv.onrender.com/api/workers')
+    fetch(`${BASE_URL}/api/workers`)
       .then(async (res) => {
         const contentType = res.headers.get("content-type");
-        if (!res.ok) {
-          const text = await res.text();
-          throw new Error(`Server error: ${text}`);
-        }
-        if (!contentType || !contentType.includes("application/json")) {
-          throw new Error("Invalid response format (expected JSON)");
-        }
+        if (!res.ok) throw new Error(await res.text());
+        if (!contentType?.includes("application/json"))
+          throw new Error("Expected JSON response");
         return res.json();
       })
-      .then(data => setWorkers(data))
-      .catch(err => console.error('Error fetching workers:', err.message));
+      .then(data => {
+        setWorkers(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
 
+  // Delete worker
   const handleDelete = async (id) => {
-    const confirm = window.confirm("Are you sure you want to delete this worker?");
-    if (!confirm) return;
-
+    if (!window.confirm('Are you sure you want to delete this worker?')) return;
     try {
-      const res = await fetch(`https://cmp-backend-8htv.onrender.com/api/workers/${id}`, {
+      const res = await fetch(`${BASE_URL}/api/workers/${id}`, {
         method: 'DELETE',
       });
 
       if (res.ok) {
-        setWorkers(prev => prev.filter(worker => worker._id !== id));
+        setWorkers(workers.filter(worker => worker._id !== id));
       } else {
-        alert("Failed to delete worker.");
+        const errMsg = await res.text();
+        alert(`Delete failed: ${errMsg}`);
       }
-    } catch (error) {
-      console.error("Error deleting worker:", error);
+    } catch (err) {
+      console.error(err);
+      alert('Delete failed. Please try again.');
     }
   };
 
+  // Filter workers by selected field and search term
   const filteredWorkers = workers.filter(worker => {
-    const value = (worker[searchField] || '').toLowerCase();
-    return value.includes(searchTerm.toLowerCase());
+    const value = worker[searchBy];
+    return value?.toString().toLowerCase().includes(searchTerm.toLowerCase());
   });
 
   return (
-    <div className="cards-wrapper">
-      <h2 className="cards-title">👷 All Workers</h2>
+    <div className="worker-cards-page">
+      <h2>All Workers</h2>
 
-      <div className="top-controls">
-        <select
-          className="search-select"
-          value={searchField}
-          onChange={(e) => setSearchField(e.target.value)}
-        >
+      <div className="search-bar">
+        <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}>
           <option value="name">Name</option>
           <option value="finNumber">FIN No</option>
-          <option value="workPermitNumber">Work Permit No</option>
+          <option value="employer">Company</option>
+          <option value="workPermitNumber">Permit No</option>
           <option value="sector">Sector</option>
           <option value="nationality">Nationality</option>
         </select>
-
         <input
-          className="search-input"
           type="text"
-          placeholder={`Search by ${searchField}`}
+          placeholder={`Search by ${searchBy}`}
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+      </div>
 
-        <button className="back-btn" onClick={() => navigate('/')}>🏠 Home</button>
-      </div>
-        <table className="worker-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Employer</th>
-              <th>FIN No</th>
-              <th>Work Permit</th>
-              <th>DOB</th>
-              <th>Sector</th>
-              <th>Nationality</th>
-              <th>App Date</th>
-              <th>Approval Date</th>
-              <th>Expiry Date</th>
-              <th>Certificates</th>
-              <th>Type</th>
-              <th>CSOC No</th>
-              <th>CSOC Date</th>
-              <th>BCSS No</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredWorkers.map((worker, index) => (
-              <tr key={index}>
-                <td>{worker.name || '-'}</td>
-                <td>{worker.employer || '-'}</td>
-                <td>{worker.finNumber || '-'}</td>
-                <td>{worker.workPermitNumber || '-'}</td>
-                <td>{formatDate(worker.dob) || '-'}</td>
-                <td>{worker.sector || '-'}</td>
-                <td>{worker.nationality || '-'}</td>
-                <td>{formatDate(worker.applicationDate) || '-'}</td>
-                <td>{formatDate(worker.approvalDate) || '-'}</td>
-                <td>{formatDate(worker.expiryDate) || '-'}</td>
-                <td style={{
-                    whiteSpace: 'pre-line',
-                    textAlign: 'left',
-                    maxWidth: '120px',
-                    wordWrap: 'break-word',
-                    overflowWrap: 'break-word'
-                  }}>{worker.certificates || '-'}
-                </td>
-                <td>{worker.certificateType || '-'}</td>
-                <td>
-                  {worker.certificateType === 'CSOC' && worker.csocNumber
-                    ? worker.csocNumber
-                    : '-'}
-                </td>
-                <td>
-                  {worker.certificateType === 'CSOC' && formatDate(worker.csocDate)
-                    ? formatDate(worker.csocDate)
-                    : '-'}
-                </td>
-                <td>
-                  {worker.certificateType === 'BCSS' && worker.bcssNumber
-                    ? worker.bcssNumber
-                    : '-'}
-                </td>
-                <td>
-                  <button
-                    onClick={() => navigate(`/edit-worker/${worker._id}`)}
-                    className="action-btn edit"
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    className="action-btn delete"
-                    onClick={() => handleDelete(worker._id)}
-                    title="Delete"
-                  >
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {filteredWorkers.length === 0 && (
+      {loading ? (
+        <p>Loading workers...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>Error: {error}</p>
+      ) : filteredWorkers.length === 0 ? (
+        <p>No workers found.</p>
+      ) : (
+        <div className="worker-table-wrapper">
+          <table className="worker-table">
+            <thead>
               <tr>
-                <td colSpan="16" style={{ textAlign: 'center' }}>
-                  No workers found. 
-                </td>
+                <th>Name</th>
+                <th>FIN No</th>
+                <th>Employer</th>
+                <th>Work Permit</th>
+                <th>Sector</th>
+                <th>Nationality</th>
+                <th>DOB</th>
+                <th>Application</th>
+                <th>Approval</th>
+                <th>Expiry</th>
+                <th>CSOC No</th>
+                <th>BCSSC No</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {filteredWorkers.map((worker) => (
+                <tr key={worker._id}>
+                  <td>{worker.name}</td>
+                  <td>{worker.finNumber}</td>
+                  <td>{worker.employer}</td>
+                  <td>{worker.workPermitNumber}</td>
+                  <td>{worker.sector}</td>
+                  <td>{worker.nationality}</td>
+                  <td>{worker.dob?.substring(0, 10) || '-'}</td>
+                  <td>{worker.applicationDate?.substring(0, 10) || '-'}</td>
+                  <td>{worker.approvalDate?.substring(0, 10) || '-'}</td>
+                  <td>{worker.expiryDate?.substring(0, 10) || '-'}</td>
+                  <td>{worker.csocNumber || '-'}</td>
+                  <td>{worker.bcsscNumber || '-'}</td>
+                  <td>
+                    <button onClick={() => navigate(`/edit-worker/${worker._id}`)}>Edit</button>
+                    <button onClick={() => handleDelete(worker._id)} style={{ marginLeft: '6px' }}>
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   );
-};
+}
 
 export default WorkerCards;
