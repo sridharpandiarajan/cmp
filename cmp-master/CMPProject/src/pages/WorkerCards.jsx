@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './WorkerCards.css';
+import '../css/WorkerCards.css';
 import { BASE_URL } from '../api';
 
 function WorkerCards() {
