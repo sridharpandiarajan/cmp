@@ -10,7 +10,7 @@ const EditWorker = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://cmp-backend-8htv.onrender.com/api/workers/find/${id}`)
+    fetch(`https://cmp-ov99.onrender.com/api/workers/find/${id}`)
       .then(res => res.json())
       .then(data => {
         setWorker(data);
@@ -31,7 +31,7 @@ const EditWorker = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`https://cmp-backend-8htv.onrender.com/api/workers/${id}`, {
+      const res = await fetch(`https://cmp-ov99.onrender.com/api/workers/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(worker),
